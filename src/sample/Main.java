@@ -18,6 +18,13 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        launch(args);
+        //launch(args);
+        City city = new City("agadir");
+        try{
+            city.CallAPI();
+        }
+        catch (Exception e){
+            System.out.println("execption de calapi");
+        }
     }
 }
