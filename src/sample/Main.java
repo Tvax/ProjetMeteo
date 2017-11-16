@@ -16,15 +16,11 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-
     public static void main(String[] args) {
         //launch(args);
-        City city = new City("agadir");
-        try{
-            city.CallAPI();
-        }
-        catch (Exception e){
-            System.out.println("execption de calapi");
-        }
+        City city = new City(" ");
+
+        System.out.println(city.toString());
+
     }
 }
