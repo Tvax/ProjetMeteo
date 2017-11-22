@@ -36,7 +36,9 @@ public class Controller extends Parent {
     @FXML
     private void handleButtonSearchAction(ActionEvent e){
         City city = new City(cityTextField.getText());
+
         initialize(city);
+
     }
 
     @FXML
@@ -45,13 +47,13 @@ public class Controller extends Parent {
     }
 
     public void initialize(City city) {
-        borderPane.setStyle("-fx-background-image: url(\"" + city.getCityImage() + "\");-fx-background-size: 1920, 1080;-fx-background-repeat: no-repeat;");
-        city.getCityImage();
-        cityName.setText(city.getName() + ", " + city.getCountry());
-        time.setText(city.getTime());
-        temperature.setText(city.getTemp());
-        weather.setText(city.getWeatherDetails());
-        weatherIcon.setImage(new Image(city.getWeather()));
+        borderPane.setStyle("-fx-background-image: url(\"" + city.getUnsplash().getUrlCityImage() + "\");-fx-background-size: 1920, 1080;-fx-background-repeat: no-repeat;");
+        //city.getCityImage();
+        cityName.setText(city.getOpenWeatherMap().getName() + ", " + city.getOpenWeatherMap().getCountry());
+        time.setText(city.getTimeZoneDB().getTime());
+        temperature.setText(city.getOpenWeatherMap().getTemp());
+        weather.setText(city.getOpenWeatherMap().getWeatherDescription());
+        weatherIcon.setImage(new Image(city.getOpenWeatherMap().getWeatherImage()));
 
     }
 

@@ -1,73 +1,65 @@
 package sample;
 
-import org.json.JSONObject;
-import sun.net.www.http.HttpClient;
+import api.OpenWeatherMap;
+import api.TimeZoneDB;
+import api.Unsplash;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.*;
-
-import static sample.JsonReader.readJsonFromUrl;
 import static sample.StringChecker.IsNullOrWhiteSpace;
 
-public class City {
+public class City{
 
     private OpenWeatherMap openWeatherMap;
+    private Unsplash unsplash;
+    private TimeZoneDB timeZoneDB;
 
-    private String urlBaseImage = "https://api.unsplash.com/photos/random?query=";
-    private String cityImage;
+    public OpenWeatherMap getOpenWeatherMap() { return openWeatherMap; }
+    public Unsplash getUnsplash() { return unsplash; }
+    public TimeZoneDB getTimeZoneDB() { return timeZoneDB; }
 
-    public String getCityImage() { return cityImage; }
 
-    public void setName(String name){ this.name = name; }
+    public City (String name) {
 
-    public City (String name) throws Exception{
         if(IsNullOrWhiteSpace(name)){
-            throw new Exception("City name invalid");
+            //throw new Exception("City name invalid");
+            //TODO:ou afficher directement fenetre erreur ici ??
         }
 
-        this.name = name;
+        callApiOpenWeatherMap(name);
+        callApiTimeZoneDB();
+        callApiUnsplash();
+
+    }
+
+    private void callApiTimeZoneDB(){
         try {
-            this.callAPI();
+            new Thread(() ->{
+                timeZoneDB = new TimeZoneDB(openWeatherMap.getLng(), openWeatherMap.getLat());
+            }){{start();}}.join();
         }
         catch (Exception e){
-            System.out.println(e.getMessage());
+            //TODO: do not display time
         }
     }
 
-
-    private void callAPI() throws Exception {
-
+    private void callApiUnsplash(){
         try {
-
-
-            //unsplash
-            URL url1 = new URL(urlBaseImage + this.name);
-            HttpURLConnection urlConn = (HttpURLConnection) url1.openConnection();
-            urlConn.setRequestProperty("Authorization", "Bearer d1d21525dd7d52dc4f608a06c458031ac4a427cc06de40b347eb90802a1d1fa7");
-            urlConn.setRequestMethod("GET");
-            urlConn.connect();
-
-            BufferedReader br = new BufferedReader(new InputStreamReader((urlConn.getInputStream())));
-            StringBuilder sb = new StringBuilder();
-            String output;
-            while ((output = br.readLine()) != null) {
-                sb.append(output);
-            }
-
-            JSONObject jsonObject = new JSONObject(sb.toString());
-            cityImage = jsonObject.getJSONObject("urls").get("raw").toString();
-
-
+            new Thread(() ->{
+                unsplash = new Unsplash(openWeatherMap.getName());
+            }){{start();}}.join();
         }
-        catch (MalformedURLException e) {
-            e.printStackTrace();
+        catch (Exception e){
+            //TODO: do not display time
         }
     }
 
-    @Override
-    public String toString(){
-        return this.name + " : " + this.temp;
+    private void callApiOpenWeatherMap(String name){
+        try {
+            openWeatherMap = new OpenWeatherMap(name);
+        }
+        catch (Exception e){
+            //TODO: error window with "error with opw website pls try again"
+        }
     }
+
 }
 

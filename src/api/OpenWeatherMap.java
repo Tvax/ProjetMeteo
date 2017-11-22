@@ -1,11 +1,10 @@
-package sample;
+package api;
 
-import com.sun.xml.internal.bind.v2.TODO;
 import org.json.JSONObject;
 
 import java.io.IOException;
 
-import static sample.JsonReader.readJsonFromUrl;
+import static api.JsonReader.readJsonFromUrl;
 
 public class OpenWeatherMap {
 
@@ -14,11 +13,13 @@ public class OpenWeatherMap {
     private String temp;
     private String weatherImage;
     private String weatherDescription;
+    private String lng;
+    private String lat;
 
-    private String apiKeyWeather = "d82b125f9ed47887afc80e5304bbf603";
-    private String urlBaseWeather = "http://api.openweathermap.org/data/2.5/weather?";
-    private String urlBaseweatherImage = "https://openweathermap.org/img/w/";
-    private String urlJsonWeather = new String (urlBaseWeather + "q=" + name + "&appid=" + apiKeyWeather + "&units=metric");
+    private static final String API_KEY_WEATHER = "d82b125f9ed47887afc80e5304bbf603";
+    private static final String URL_BASE_WEATHER = "http://api.openweathermap.org/data/2.5/weather?";
+    private static final String URL_BASE_WEATHER_IMAGE = "https://openweathermap.org/img/w/";
+    private String urlJsonWeather;
 
     private JSONObject jsonObject;
 
@@ -28,10 +29,14 @@ public class OpenWeatherMap {
     public String getTemp() { return temp; }
     public String getWeatherImage() { return weatherImage; }
     public String getWeatherDescription() { return weatherDescription; }
+    public String getLng(){return lng;}
+    public String getLat(){return lat;}
 
 
     public OpenWeatherMap(String name){
         this.name = name;
+        buildURL();
+
         try {
             getJSONFile();
         }
@@ -43,8 +48,12 @@ public class OpenWeatherMap {
             setVariables();
         }
         catch (Exception e){
-            //TODO: ouvrir fentre errer en gros jsonobject coorrespond pas
+            //TODO: ville non exsistante
         }
+    }
+
+    private void buildURL(){
+         urlJsonWeather = new String (URL_BASE_WEATHER + "q=" + name + "&appid=" + API_KEY_WEATHER + "&units=metric");
     }
 
     private void getJSONFile() throws IOException {
@@ -56,8 +65,10 @@ public class OpenWeatherMap {
         this.country = jsonObject.getJSONObject("sys").get("country").toString();
         this.temp = jsonObject.getJSONObject("main").get("temp").toString();
         this.weatherDescription = jsonObject.getJSONArray("weather").getJSONObject(0).get("description").toString();
+        this.lng = jsonObject.optJSONObject("coord").get("lon").toString();
+        this.lat = jsonObject.optJSONObject("coord").get("lat").toString();
 
         String imageID = jsonObject.getJSONArray("weather").getJSONObject(0).get("icon").toString();
-        this.weatherImage = urlBaseweatherImage + imageID + ".png";
+        this.weatherImage = URL_BASE_WEATHER_IMAGE + imageID + ".png";
     }
 }

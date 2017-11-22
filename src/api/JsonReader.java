@@ -1,4 +1,4 @@
-package sample;
+package api;
 
 import java.io.*;
 import java.net.URL;
