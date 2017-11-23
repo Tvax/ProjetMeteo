@@ -1,5 +1,6 @@
 package api;
 
+import javafx.beans.property.SimpleStringProperty;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -11,14 +12,15 @@ import java.net.URL;
 public class Unsplash {
 
     private String name;
+
     private static final String URL_BASE_UNSPLASH = "https://api.unsplash.com/photos/random?query=";
     private static final String API_KEY_UNSPLASH = "d1d21525dd7d52dc4f608a06c458031ac4a427cc06de40b347eb90802a1d1fa7";
-    private String urlCityImage;
+
     private String urlAPIUnsplash;
     private JSONObject jsonObject;
 
-    public String getUrlCityImage() { return urlCityImage; }
-
+    private SimpleStringProperty backgroundCityImageProperty;
+    public SimpleStringProperty backgroundCityImagePropertyProperty() { return backgroundCityImageProperty; }
 
     public Unsplash(String name){
         this.name = name;
@@ -61,8 +63,8 @@ public class Unsplash {
     }
 
     private void setVariables(){
-        urlCityImage = jsonObject.getJSONObject("urls").get("raw").toString();
+        String urlCityImage = jsonObject.getJSONObject("urls").get("raw").toString();
+        backgroundCityImageProperty = new SimpleStringProperty("-fx-background-image: url(\"" + urlCityImage + "\");-fx-background-size: 1920, 1080;-fx-background-repeat: no-repeat;");
     }
-
 
 }

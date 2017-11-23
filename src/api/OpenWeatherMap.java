@@ -1,5 +1,9 @@
 package api;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.image.Image;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -9,10 +13,6 @@ import static api.JsonReader.readJsonFromUrl;
 public class OpenWeatherMap {
 
     private String name;
-    private String country;
-    private String temp;
-    private String weatherImage;
-    private String weatherDescription;
     private String lng;
     private String lat;
 
@@ -23,12 +23,18 @@ public class OpenWeatherMap {
 
     private JSONObject jsonObject;
 
+    private SimpleStringProperty tempProperty;
+    private ObjectProperty<Image> weatherImageProperty;
+    private SimpleStringProperty nameProperty;
+    private SimpleStringProperty weatherDescriptionProperty;
 
-    public String getName() { return name; }
-    public String getCountry() { return country; }
-    public String getTemp() { return temp; }
-    public String getWeatherImage() { return weatherImage; }
-    public String getWeatherDescription() { return weatherDescription; }
+
+    public ObjectProperty<Image> weatherImagePropertyProperty() { return weatherImageProperty; }
+    public SimpleStringProperty tempPropertyProperty() { return tempProperty; }
+    public SimpleStringProperty namePropertyProperty() { return nameProperty; }
+    public SimpleStringProperty weatherDescriptionPropertyProperty() { return weatherDescriptionProperty; }
+
+    public String getNameProperty() { return nameProperty.get(); }
     public String getLng(){return lng;}
     public String getLat(){return lat;}
 
@@ -52,23 +58,24 @@ public class OpenWeatherMap {
         }
     }
 
-    private void buildURL(){
-         urlJsonWeather = new String (URL_BASE_WEATHER + "q=" + name + "&appid=" + API_KEY_WEATHER + "&units=metric");
-    }
+    private void buildURL(){ urlJsonWeather = new String (URL_BASE_WEATHER + "q=" + name + "&appid=" + API_KEY_WEATHER + "&units=metric"); }
 
-    private void getJSONFile() throws IOException {
-        jsonObject = readJsonFromUrl(urlJsonWeather);
-    }
+    private void getJSONFile() throws IOException { jsonObject = readJsonFromUrl(urlJsonWeather); }
 
     private void setVariables(){
         this.name = jsonObject.get("name").toString();
-        this.country = jsonObject.getJSONObject("sys").get("country").toString();
-        this.temp = jsonObject.getJSONObject("main").get("temp").toString();
-        this.weatherDescription = jsonObject.getJSONArray("weather").getJSONObject(0).get("description").toString();
+        String country = jsonObject.getJSONObject("sys").get("country").toString();
+        String temp = jsonObject.getJSONObject("main").get("temp").toString();
+        String weatherDescription = jsonObject.getJSONArray("weather").getJSONObject(0).get("description").toString();
         this.lng = jsonObject.optJSONObject("coord").get("lon").toString();
         this.lat = jsonObject.optJSONObject("coord").get("lat").toString();
 
         String imageID = jsonObject.getJSONArray("weather").getJSONObject(0).get("icon").toString();
-        this.weatherImage = URL_BASE_WEATHER_IMAGE + imageID + ".png";
+        String weatherImage = URL_BASE_WEATHER_IMAGE + imageID + ".png";
+
+        this.nameProperty = new SimpleStringProperty(this.name + ", " + country);
+        this.tempProperty = new SimpleStringProperty(temp);
+        this.weatherDescriptionProperty = new SimpleStringProperty(weatherDescription);
+        this.weatherImageProperty = new SimpleObjectProperty<Image>(new Image(weatherImage));
+        }
     }
-}

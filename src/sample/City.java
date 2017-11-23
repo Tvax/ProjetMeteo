@@ -25,8 +25,8 @@ public class City{
         }
 
         callApiOpenWeatherMap(name);
-        //callApiTimeZoneDB();
-        //callApiUnsplash();
+        callApiTimeZoneDB();
+        callApiUnsplash();
 
     }
 
@@ -44,7 +44,7 @@ public class City{
     private void callApiUnsplash(){
         try {
             new Thread(() ->{
-                unsplash = new Unsplash(openWeatherMap.getName());
+                unsplash = new Unsplash(openWeatherMap.getNameProperty());
             }){{start();}}.join();
         }
         catch (Exception e){
@@ -63,7 +63,7 @@ public class City{
 
     @Override
     public String toString(){
-        return openWeatherMap.getName();
+        return openWeatherMap.getNameProperty();
     }
 
 }
