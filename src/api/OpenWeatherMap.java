@@ -39,7 +39,7 @@ public class OpenWeatherMap {
     public String getLat(){return lat;}
 
 
-    public OpenWeatherMap(String name){
+    public OpenWeatherMap(String name) throws Exception {
         this.name = name;
         buildURL();
 
@@ -47,15 +47,11 @@ public class OpenWeatherMap {
             getJSONFile();
         }
         catch (Exception e){
-            //TODO: ouvrir fenetre erreur "check connection internet"
+            throw new Exception("Error with ur internet connection");
         }
 
-        try {
-            setVariables();
-        }
-        catch (Exception e){
-            //TODO: ville non exsistante
-        }
+        setVariables();
+
     }
 
     private void buildURL(){ urlJsonWeather = new String (URL_BASE_WEATHER + "q=" + name + "&appid=" + API_KEY_WEATHER + "&units=metric"); }

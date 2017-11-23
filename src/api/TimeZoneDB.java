@@ -20,7 +20,16 @@ public class TimeZoneDB {
     private SimpleStringProperty timeProperty;
     public SimpleStringProperty timePropertyProperty() { return timeProperty; }
 
-    public TimeZoneDB(String lng, String lat){
+    public TimeZoneDB(String lng, String lat) throws Exception {
+
+//
+//        Alert alert = new Alert(Alert.AlertType.WARNING);
+//        alert.setTitle("Information Dialog");
+//        alert.setHeaderText("Look, an Information Dialog");
+//        alert.setContentText("I have a great message for you!");
+//
+//        alert.showAndWait();
+
         this.lng = lng;
         this.lat = lat;
         buildURL();
@@ -29,15 +38,10 @@ public class TimeZoneDB {
             getJSONFile();
         }
         catch (Exception e){
-            //TODO: ouvrir fenetre erreur "check connection internet"
+            throw new Exception("Error with ur internet connection");
         }
 
-        try {
-            setVariables();
-        }
-        catch (Exception e){
-            //TODO: ouvrir fentre errer en gros jsonobject coorrespond pas
-        }
+        setVariables();
     }
 
     private void buildURL(){

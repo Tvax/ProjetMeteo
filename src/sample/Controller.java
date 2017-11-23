@@ -8,8 +8,10 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -17,6 +19,9 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 
 public class Controller extends Parent {
+
+    @FXML
+    private Button removeButton;
 
     @FXML
     private BorderPane borderPane;
@@ -60,6 +65,27 @@ public class Controller extends Parent {
         cityTextField.setText(null);
     }
 
+
+    @FXML
+    private void handleButtonRemove(ActionEvent e){
+        removeButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent event) {
+                final int selectedIdx = listView.getSelectionModel().getSelectedIndex();
+                if (selectedIdx != -1) {
+                    City itemToRemove = listView.getSelectionModel().getSelectedItem();
+
+                    final int newSelectedIdx =
+                            (selectedIdx == listView.getItems().size() - 1)
+                                    ? selectedIdx - 1
+                                    : selectedIdx;
+
+                    listView.getItems().remove(selectedIdx);
+                    listView.getSelectionModel().select(newSelectedIdx);
+                }
+            }
+        });
+    }
+
     public void initialize() {
         listView.itemsProperty().bind(listProperty);
 
@@ -79,6 +105,15 @@ public class Controller extends Parent {
                 weatherProperty.bind(newValue.getOpenWeatherMap().weatherDescriptionPropertyProperty());
                 weatherIconProperty.bind(newValue.getOpenWeatherMap().weatherImagePropertyProperty());
                 borderPaneProperty.bind(newValue.getUnsplash().backgroundCityImagePropertyProperty());
+            }
+
+            if(cityList.isEmpty()){
+                cityNameProperty.bind(new SimpleStringProperty());
+                timeProperty.bind(new SimpleStringProperty());
+                temperatureProperty.bind(new SimpleStringProperty());
+                weatherProperty.bind(new SimpleStringProperty());
+                weatherIconProperty.bind(new SimpleObjectProperty<>());
+                borderPaneProperty.bind(new SimpleObjectProperty<>());
             }
         });
 

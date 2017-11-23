@@ -3,6 +3,7 @@ package sample;
 import api.OpenWeatherMap;
 import api.TimeZoneDB;
 import api.Unsplash;
+import com.sun.deploy.uitoolkit.impl.fx.ui.FXMessageDialog;
 
 import static sample.StringChecker.IsNullOrWhiteSpace;
 
@@ -33,21 +34,29 @@ public class City{
     private void callApiTimeZoneDB(){
         try {
             new Thread(() ->{
-                timeZoneDB = new TimeZoneDB(openWeatherMap.getLng(), openWeatherMap.getLat());
+                try {
+                    timeZoneDB = new TimeZoneDB(openWeatherMap.getLng(), openWeatherMap.getLat());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }){{start();}}.join();
-        }
-        catch (Exception e){
-            //TODO: do not display time
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
     private void callApiUnsplash(){
         try {
             new Thread(() ->{
-                unsplash = new Unsplash(openWeatherMap.getNameProperty());
+                try {
+                    unsplash = new Unsplash(openWeatherMap.getNameProperty());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }){{start();}}.join();
         }
         catch (Exception e){
+
             //TODO: do not display time
         }
     }

@@ -22,7 +22,7 @@ public class Unsplash {
     private SimpleStringProperty backgroundCityImageProperty;
     public SimpleStringProperty backgroundCityImagePropertyProperty() { return backgroundCityImageProperty; }
 
-    public Unsplash(String name){
+    public Unsplash(String name) throws Exception {
         this.name = name;
         buildURL();
 
@@ -30,15 +30,11 @@ public class Unsplash {
             getJsonFile();
         }
         catch (Exception e){
-            //TODO: retourner l'erreur "check connection internet"
+            throw new Exception("Error with ur internet connection");
         }
 
-        try {
-            setVariables();
-        }
-        catch (Exception e){
-            //TODO: ville non exsistante
-        }
+        setVariables();
+
     }
 
     private void buildURL(){
