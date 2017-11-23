@@ -25,8 +25,8 @@ public class City{
         }
 
         callApiOpenWeatherMap(name);
-        callApiTimeZoneDB();
-        callApiUnsplash();
+        //callApiTimeZoneDB();
+        //callApiUnsplash();
 
     }
 
@@ -59,6 +59,11 @@ public class City{
         catch (Exception e){
             //TODO: error window with "error with opw website pls try again"
         }
+    }
+
+    @Override
+    public String toString(){
+        return openWeatherMap.getName();
     }
 
 }
