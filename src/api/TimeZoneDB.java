@@ -9,6 +9,9 @@ import static api.JsonReader.readJsonFromUrl;
 
 public class TimeZoneDB {
 
+    private static final String ERROR_MSG = "There's been an error fetching data from TZDB. Try again later.";
+
+
     private static final String API_KEY_TIMEZONEDB = "B1ZJLC3ORUD5";
 
     private String urlBaseTimeZoneDB = new String("https://api.timezonedb.com/v2/get-time-zone?key=" + API_KEY_TIMEZONEDB + "&format=json&fields=formatted&by=position&lat=");

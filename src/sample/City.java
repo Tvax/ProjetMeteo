@@ -3,7 +3,6 @@ package sample;
 import api.OpenWeatherMap;
 import api.TimeZoneDB;
 import api.Unsplash;
-import com.sun.deploy.uitoolkit.impl.fx.ui.FXMessageDialog;
 
 import static sample.StringChecker.IsNullOrWhiteSpace;
 
@@ -18,55 +17,43 @@ public class City{
     public TimeZoneDB getTimeZoneDB() { return timeZoneDB; }
 
 
-    public City (String name) {
+    public City (String name) throws Exception {
 
         if(IsNullOrWhiteSpace(name)){
-            //throw new Exception("City name invalid");
-            //TODO:ou afficher directement fenetre erreur ici ??
+            throw new Exception("City name invalid");
         }
 
-        callApiOpenWeatherMap(name);
-        callApiTimeZoneDB();
-        callApiUnsplash();
-
-    }
-
-    private void callApiTimeZoneDB(){
         try {
-            new Thread(() ->{
-                try {
-                    timeZoneDB = new TimeZoneDB(openWeatherMap.getLng(), openWeatherMap.getLat());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }){{start();}}.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            callApiOpenWeatherMap(name);
+            callApiTimeZoneDB();
+            callApiUnsplash();
+        }catch (Exception e){
+            throw e;
         }
     }
 
-    private void callApiUnsplash(){
+    private void callApiTimeZoneDB() throws Exception {
         try {
-            new Thread(() ->{
-                try {
-                    unsplash = new Unsplash(openWeatherMap.getNameProperty());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }){{start();}}.join();
-        }
-        catch (Exception e){
-
-            //TODO: do not display time
+            timeZoneDB = new TimeZoneDB(openWeatherMap.getLng(), openWeatherMap.getLat());
+        } catch (Exception e) {
+            throw e;
         }
     }
 
-    private void callApiOpenWeatherMap(String name){
+    private void callApiUnsplash() throws Exception {
+        try {
+            unsplash = new Unsplash(openWeatherMap.getNameProperty());
+        }catch (Exception e) {
+            throw e;
+        }
+    }
+
+    private void callApiOpenWeatherMap(String name) throws Exception {
         try {
             openWeatherMap = new OpenWeatherMap(name);
         }
         catch (Exception e){
-            //TODO: error window with "error with opw website pls try again"
+            throw e;
         }
     }
 
@@ -76,4 +63,3 @@ public class City{
     }
 
 }
-

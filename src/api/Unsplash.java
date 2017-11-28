@@ -13,6 +13,8 @@ public class Unsplash {
 
     private String name;
 
+    private static final String ERROR_MSG = "There's been an error fetching data from Unsplash. Try again later.";
+
     private static final String URL_BASE_UNSPLASH = "https://api.unsplash.com/photos/random?query=";
     private static final String API_KEY_UNSPLASH = "d1d21525dd7d52dc4f608a06c458031ac4a427cc06de40b347eb90802a1d1fa7";
 
@@ -30,7 +32,7 @@ public class Unsplash {
             getJsonFile();
         }
         catch (Exception e){
-            throw new Exception("Error with ur internet connection");
+            throw new Exception(ERROR_MSG);
         }
 
         setVariables();
@@ -41,7 +43,7 @@ public class Unsplash {
         urlAPIUnsplash  = new String(URL_BASE_UNSPLASH + this.name);
     }
 
-    private void getJsonFile() throws IOException {
+    private void getJsonFile() throws Exception {
         URL url = new URL(urlAPIUnsplash);
         HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
         urlConn.setRequestProperty("Authorization", "Bearer " + API_KEY_UNSPLASH);
