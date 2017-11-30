@@ -67,7 +67,7 @@
               </rowConstraints>
                <children>
                     <Button onAction="#handleButtonAction" text="Quitter" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM" />
-                  <Button fx:id="removeButton" onAction="#handleButtonRemove" mnemonicParsing="false" text="Remove" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM" />
+                  <Button fx:id="removeButton" onAction="#handleButtonRemove" mnemonicParsing="false" text="Retirer de la liste" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM" />
                </children>
             </GridPane>
          </bottom></BorderPane>
