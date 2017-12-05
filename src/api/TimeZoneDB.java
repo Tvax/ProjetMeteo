@@ -31,7 +31,10 @@ public class TimeZoneDB {
         buildURL();
 
         try { getJSONFile(); }
-        catch (Exception e){ error = true; }
+        catch (Exception e){
+            error = true;
+            return;
+        }
 
         setVariables();
     }

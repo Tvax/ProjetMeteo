@@ -44,7 +44,10 @@ public class OpenWeatherMap {
         buildURL();
 
         try { getJSONFile(); }
-        catch (Exception e){ error = true; }
+        catch (Exception e){
+            error = true;
+            return;
+        }
 
         setVariables();
     }

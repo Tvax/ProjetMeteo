@@ -22,19 +22,17 @@ public class City{
     public TimeZoneDB getTimeZoneDB() { return timeZoneDB; }
 
     public City (String name) throws Exception {
-        if(IsNullOrWhiteSpace(name)){ throw new Exception(ERROR_CITYNAME); }
-
+        if(IsNullOrWhiteSpace(name)){
+            throw new Exception(ERROR_CITYNAME);
+        }
+        
         try {
             callApiOpenWeatherMap(name);
-
-        }catch (Exception e){ throw e; }
-
-        try {
-
+            callApiTimeZoneDB();
+            callApiUnsplash();
         }
-        catch (Exception e;
-        callApiTimeZoneDB();
-        callApiUnsplash();
+        catch (Exception e){ throw e;}
+
     }
 
     private void callApiTimeZoneDB() throws Exception {

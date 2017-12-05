@@ -31,7 +31,10 @@ public class Unsplash {
         buildURL();
 
         try { getJsonFile(); }
-        catch (Exception e){ error = true; }
+        catch (Exception e){
+            error = true;
+            return;
+        }
 
         setVariables();
     }

@@ -13,9 +13,10 @@ public class StringChecker {
         int index;
         if (value == null)
             return true;
+        if(IsNullOrEmpty(value))
+            return true;
         if (!isWhiteSpace(value))
             return false;
-
         return true;
     }
 
