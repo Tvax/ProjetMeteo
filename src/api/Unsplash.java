@@ -11,32 +11,29 @@ import java.net.URL;
 
 public class Unsplash {
 
-    private String name;
-
     private static final String ERROR_MSG = "There's been an error fetching data from Unsplash. Try again later.";
-
     private static final String URL_BASE_UNSPLASH = "https://api.unsplash.com/photos/random?query=";
     private static final String API_KEY_UNSPLASH = "d1d21525dd7d52dc4f608a06c458031ac4a427cc06de40b347eb90802a1d1fa7";
 
+    private String name;
+    private boolean error = false;
     private String urlAPIUnsplash;
     private JSONObject jsonObject;
 
     private SimpleStringProperty backgroundCityImageProperty;
+
     public SimpleStringProperty backgroundCityImagePropertyProperty() { return backgroundCityImageProperty; }
 
-    public Unsplash(String name) throws Exception {
+    public boolean isError(){return error;}
+
+    public Unsplash(String name) {
         this.name = name;
         buildURL();
 
-        try {
-            getJsonFile();
-        }
-        catch (Exception e){
-            throw new Exception(ERROR_MSG);
-        }
+        try { getJsonFile(); }
+        catch (Exception e){ error = true; }
 
         setVariables();
-
     }
 
     private void buildURL(){
@@ -56,7 +53,6 @@ public class Unsplash {
         while ((output = br.readLine()) != null) {
             sb.append(output);
         }
-
         jsonObject = new JSONObject(sb.toString());
     }
 

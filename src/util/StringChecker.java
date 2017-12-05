@@ -1,4 +1,4 @@
-package sample;
+package util;
 
 public class StringChecker {
 

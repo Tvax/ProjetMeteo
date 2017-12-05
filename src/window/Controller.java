@@ -1,10 +1,7 @@
-package sample;
+package window;
 
 import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.*;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import city.City;
 
 public class Controller extends Parent {
 
@@ -58,14 +56,14 @@ public class Controller extends Parent {
     private ObjectProperty<Image> weatherIconProperty = new SimpleObjectProperty<>();
     private StringProperty borderPaneProperty  = new SimpleStringProperty();
 
-
     @FXML
     private void handleButtonSearchAction(ActionEvent event){
         try {
             cityList.add(new City(cityTextField.getText()));
             cityTextField.setText(null);
         }
-        catch (Exception e){
+        catch (Exception e) {
+            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle(ALERT_TITLE);
             alert.setHeaderText(ALERT_DIALOG);

@@ -1,4 +1,4 @@
-package api;
+package util;
 
 import java.io.*;
 import java.net.URL;
@@ -25,8 +25,6 @@ public class JsonReader {
             String jsonText = readAll(rd);
             JSONObject json = new JSONObject(jsonText);
             return json;
-        } finally {
-            is.close();
-        }
+        } finally { is.close(); }
     }
 }
