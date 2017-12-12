@@ -1,0 +1,19 @@
+.pane{
+-fx-background-radius: 20 20 20 20;
+-fx-background-color: white;
+-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+
+.labelForm{
+-fx-font-size: 20px;
+
+}
+
+.buttonForm{
+
+}
+
+.textFont{
+-fx-font-family: "monospace";
+-fx-font-weight: bold;
+}
