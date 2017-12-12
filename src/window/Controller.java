@@ -28,9 +28,6 @@ public class Controller extends Parent {
     private TextField cityTextField;
 
     @FXML
-    private Label cityName;
-
-    @FXML
     private Label time;
 
     @FXML
@@ -106,7 +103,6 @@ public class Controller extends Parent {
         //Binding FXML (Label...) -> Property
         listView.itemsProperty().bind(listProperty);
 
-        cityName.textProperty().bind(cityNameProperty);
         time.textProperty().bind(timeProperty);
         temperature.textProperty().bind(temperatureProperty);
         weather.textProperty().bind(weatherProperty);
@@ -115,7 +111,6 @@ public class Controller extends Parent {
     }
 
     private void unbindAll(){
-        cityNameProperty.unbind();
         timeProperty.unbind();
         temperatureProperty.unbind();
         weatherProperty.unbind();
@@ -124,7 +119,6 @@ public class Controller extends Parent {
     }
 
     private void bindCity(City city){
-        cityNameProperty.bind(city.getOpenWeatherMap().namePropertyProperty());
         timeProperty.bind(city.getTimeZoneDB().timePropertyProperty());
         temperatureProperty.bind(city.getOpenWeatherMap().tempPropertyProperty());
         weatherProperty.bind(city.getOpenWeatherMap().weatherDescriptionPropertyProperty());
@@ -133,7 +127,6 @@ public class Controller extends Parent {
     }
 
     private void bindEmptyCityProperties(){
-        cityNameProperty.bind(new SimpleStringProperty());
         timeProperty.bind(new SimpleStringProperty());
         temperatureProperty.bind(new SimpleStringProperty());
         weatherProperty.bind(new SimpleStringProperty());

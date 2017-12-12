@@ -9,9 +9,9 @@ import static util.StringChecker.IsNullOrWhiteSpace;
 public class City{
 
     private static final String ERROR_CITYNAME = "City name invalid";
-    private static final String ERROR_OWM = "There's been an error fetching data from OWM. Try again later.";
-    private static final String ERROR_UNSPLASH = "There's been an error fetching data from Unsplash. Try again later.";
-    private static final String ERROR_TZDB = "There's been an error fetching data from TZDB. Try again later.";
+    private static final String ERROR_OWM = "There's been an error fetching data from OWM.";
+    private static final String ERROR_UNSPLASH = "There's been an error fetching data from Unsplash.";
+    private static final String ERROR_TZDB = "There's been an error fetching data from TZDB.";
 
     private OpenWeatherMap openWeatherMap;
     private Unsplash unsplash;
@@ -40,7 +40,7 @@ public class City{
             try {
                 timeZoneDB = new TimeZoneDB(openWeatherMap.getLng(), openWeatherMap.getLat());
             } catch (Exception e) {
-                //e.printStackTrace();
+                e.printStackTrace();
             }
         }){{start();}}.join();
 
@@ -52,9 +52,9 @@ public class City{
     private void callApiUnsplash() throws Exception {
         new Thread(() -> {
             try {
-                unsplash = new Unsplash(openWeatherMap.getNameProperty());
+                unsplash = new Unsplash(openWeatherMap.getName());
             } catch (Exception e) {
-                //e.printStackTrace();
+                e.printStackTrace();
             }
         }){{start();}}.join();
 
@@ -72,7 +72,7 @@ public class City{
 
     @Override
     public String toString(){
-        return openWeatherMap.getNameProperty();
+        return openWeatherMap.getName();
     }
 
 }

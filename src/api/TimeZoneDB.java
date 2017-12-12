@@ -7,9 +7,8 @@ import java.io.IOException;
 
 import static util.JsonReader.readJsonFromUrl;
 
-public class TimeZoneDB {
+public class TimeZoneDB extends Api{
 
-    private static final String ERROR_MSG = "There's been an error fetching data from TZDB. Try again later.";
     private static final String API_KEY_TIMEZONEDB = "B1ZJLC3ORUD5";
 
     private boolean error = false;
@@ -28,22 +27,19 @@ public class TimeZoneDB {
     public TimeZoneDB(String lng, String lat){
         this.lng = lng;
         this.lat = lat;
-        buildURL();
 
-        try { getJSONFile(); }
+        try {
+            jsonObject = getJSONFile(buildURL()); }
         catch (Exception e){
             error = true;
             return;
         }
-
         setVariables();
     }
 
-    private void buildURL(){
-       urlJsonTimeZoneDB = new String(urlBaseTimeZoneDB + this.lat + "&lng=" + this.lng);
+    private String buildURL(){
+       return new String(urlBaseTimeZoneDB + this.lat + "&lng=" + this.lng);
     }
-
-    private void getJSONFile() throws IOException { jsonObject = readJsonFromUrl(urlJsonTimeZoneDB); }
 
     private void setVariables(){
         String time = jsonObject.get("formatted").toString();

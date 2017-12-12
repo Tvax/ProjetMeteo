@@ -1,6 +1,6 @@
 package util;
 
-public class StringChecker {
+public abstract class StringChecker {
 
     public static boolean IsNullOrEmpty(String value) {
         if (value != null)
