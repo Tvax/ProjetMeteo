@@ -45,7 +45,6 @@ public class Controller extends Parent {
     protected ObservableList<City> cityList = FXCollections.observableArrayList();
     protected ListProperty<City> listProperty = new SimpleListProperty<>(cityList);
 
-    private StringProperty cityNameProperty= new SimpleStringProperty();
     private StringProperty timeProperty = new SimpleStringProperty();
     private StringProperty temperatureProperty = new SimpleStringProperty();
     private StringProperty weatherProperty = new SimpleStringProperty();
@@ -54,7 +53,7 @@ public class Controller extends Parent {
     private StringProperty borderPaneProperty  = new SimpleStringProperty();
 
     @FXML
-    private void handleButtonSearchAction(ActionEvent event){
+    private void handleButtonSearchAction(){
         try {
             cityList.add(new City(cityTextField.getText()));
             cityTextField.setText(null);
@@ -70,21 +69,19 @@ public class Controller extends Parent {
     }
 
     @FXML
-    private void handleButtonRemove(ActionEvent e){
-        removeButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent event) {
-                final int selectedIdx = listView.getSelectionModel().getSelectedIndex();
-                if (selectedIdx != -1) {
-                    City itemToRemove = listView.getSelectionModel().getSelectedItem();
+    private void handleButtonRemove(){
+        removeButton.setOnAction(event -> {
+            final int selectedIdx = listView.getSelectionModel().getSelectedIndex();
+            if (selectedIdx != -1) {
+                listView.getSelectionModel().getSelectedItem();
 
-                    final int newSelectedIdx =
-                            (selectedIdx == listView.getItems().size() - 1)
-                                    ? selectedIdx - 1
-                                    : selectedIdx;
+                final int newSelectedIdx =
+                        (selectedIdx == listView.getItems().size() - 1)
+                                ? selectedIdx - 1
+                                : selectedIdx;
 
-                    listView.getItems().remove(selectedIdx);
-                    listView.getSelectionModel().select(newSelectedIdx);
-                }
+                listView.getItems().remove(selectedIdx);
+                listView.getSelectionModel().select(newSelectedIdx);
             }
         });
     }
@@ -135,7 +132,7 @@ public class Controller extends Parent {
     }
 
     @FXML
-    private void handleButtonAction(ActionEvent event) {
+    private void handleButtonAction() {
         Platform.exit();
     }
 }

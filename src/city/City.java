@@ -74,5 +74,4 @@ public class City{
     public String toString(){
         return openWeatherMap.getName();
     }
-
 }

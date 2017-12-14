@@ -10,7 +10,6 @@ public abstract class StringChecker {
     }
 
     public static boolean IsNullOrWhiteSpace(String value) {
-        int index;
         if (value == null)
             return true;
         if(IsNullOrEmpty(value))

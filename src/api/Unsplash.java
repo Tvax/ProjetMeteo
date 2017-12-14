@@ -15,7 +15,6 @@ public class Unsplash extends Api{
 
     private String name;
     private boolean error = false;
-    private String urlAPIUnsplash;
     private JSONObject jsonObject;
 
     private SimpleStringProperty backgroundCityImageProperty;
@@ -57,7 +56,7 @@ public class Unsplash extends Api{
     }
 
     private void setVariables(){
-        String urlCityImage = jsonObject.getJSONObject("urls").get("raw").toString();
+        String urlCityImage = jsonObject.getJSONObject("urls").get("regular").toString();
         backgroundCityImageProperty = new SimpleStringProperty("-fx-background-image: url(\"" + urlCityImage + "\");-fx-background-size: 1920, 1080;-fx-background-repeat: no-repeat;");
     }
 

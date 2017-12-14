@@ -57,6 +57,6 @@ public class OpenWeatherMap extends Api{
         this.weatherDescriptionProperty = new SimpleStringProperty(jsonObject.getJSONArray("weather").getJSONObject(0).get("description").toString());
 
         String weatherImage = URL_BASE_WEATHER_IMAGE + jsonObject.getJSONArray("weather").getJSONObject(0).get("icon").toString() + ".png";
-        this.weatherImageProperty = new SimpleObjectProperty<Image>(new Image(weatherImage));
-        }
+        this.weatherImageProperty = new SimpleObjectProperty<>(new Image(weatherImage));
     }
+}

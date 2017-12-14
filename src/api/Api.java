@@ -8,7 +8,7 @@ import static util.JsonReader.readJsonFromUrl;
 
 public abstract class Api {
 
-    public JSONObject getJSONFile(String urlJson) throws IOException {
+    public final JSONObject getJSONFile(String urlJson) throws IOException {
         return readJsonFromUrl(urlJson);
     }
 }
