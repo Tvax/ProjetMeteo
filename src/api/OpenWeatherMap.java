@@ -12,7 +12,7 @@ import static util.JsonReader.readJsonFromUrl;
 
 public class OpenWeatherMap {
 
-    private static final String ERROR_MSG = "There's been an error fetching data from OWM. Try again later.";
+    //private static final String ERROR_MSG = "There's been an error fetching data from OWM. Try again later.";
     private static final String API_KEY_WEATHER = "d82b125f9ed47887afc80e5304bbf603";
     private static final String URL_BASE_WEATHER = "http://api.openweathermap.org/data/2.5/weather?";
     private static final String URL_BASE_WEATHER_IMAGE = "https://openweathermap.org/img/w/";
@@ -49,7 +49,7 @@ public class OpenWeatherMap {
         setVariables();
     }
 
-    private void buildURL(){ urlJsonWeather = new String (URL_BASE_WEATHER + "q=" + name + "&appid=" + API_KEY_WEATHER + "&units=metric"); }
+    private void buildURL(){ urlJsonWeather = URL_BASE_WEATHER + "q=" + name + "&appid=" + API_KEY_WEATHER + "&units=metric"; }
 
     private void getJSONFile() throws IOException { jsonObject = readJsonFromUrl(urlJsonWeather); }
 
@@ -63,6 +63,7 @@ public class OpenWeatherMap {
         this.weatherDescriptionProperty = new SimpleStringProperty(jsonObject.getJSONArray("weather").getJSONObject(0).get("description").toString());
 
         String weatherImage = URL_BASE_WEATHER_IMAGE + jsonObject.getJSONArray("weather").getJSONObject(0).get("icon").toString() + ".png";
-        this.weatherImageProperty = new SimpleObjectProperty<Image>(new Image(weatherImage));
-        }
+        //this.weatherImageProperty = new SimpleObjectProperty<Image>(new Image(weatherImage));
+        this.weatherImageProperty = new SimpleObjectProperty<>(new Image(weatherImage));
     }
+}

@@ -4,6 +4,8 @@ import api.OpenWeatherMap;
 import api.TimeZoneDB;
 import api.Unsplash;
 
+import java.io.IOException;
+
 import static util.StringChecker.IsNullOrWhiteSpace;
 
 public class City{
@@ -22,59 +24,37 @@ public class City{
     public TimeZoneDB getTimeZoneDB() { return timeZoneDB; }
 
     public City (String name) throws Exception {
-        if(IsNullOrWhiteSpace(name)){ throw new Exception(ERROR_CITYNAME); }
+        if(IsNullOrWhiteSpace(name)){ throw new IOException(ERROR_CITYNAME); }
 
-        try {
-            callApiOpenWeatherMap(name);
-
-        }catch (Exception e){ throw e; }
-
-        try {
-
-        }
-        catch (Exception e;
+        //http://www.oodesign.com/open-close-principle.html
+        callApiOpenWeatherMap(name);
         callApiTimeZoneDB();
         callApiUnsplash();
     }
 
-    private void callApiTimeZoneDB() throws Exception {
-        new Thread(() -> {
-            try {
-                timeZoneDB = new TimeZoneDB(openWeatherMap.getLng(), openWeatherMap.getLat());
-            } catch (Exception e) {
-                //e.printStackTrace();
-            }
-        }){{start();}}.join();
+    private void callApiTimeZoneDB() throws IOException, InterruptedException {
+        new Thread(() -> timeZoneDB = new TimeZoneDB(openWeatherMap.getLng(), openWeatherMap.getLat())){{start();}}.join();
 
         if (timeZoneDB.isError()) {
-            throw new Exception(ERROR_TZDB);
+            throw new IOException(ERROR_TZDB);
         }
     }
 
-    private void callApiUnsplash() throws Exception {
-        new Thread(() -> {
-            try {
-                unsplash = new Unsplash(openWeatherMap.getNameProperty());
-            } catch (Exception e) {
-                //e.printStackTrace();
-            }
-        }){{start();}}.join();
+    private void callApiUnsplash() throws IOException, InterruptedException {
+        new Thread(() -> unsplash = new Unsplash(openWeatherMap.getNameProperty())){{start();}}.join();
 
         if (unsplash.isError()){
-            throw new Exception(ERROR_UNSPLASH);
+            throw new IOException(ERROR_UNSPLASH);
         }
     }
 
     private void callApiOpenWeatherMap(String name) throws Exception {
         openWeatherMap = new OpenWeatherMap(name);
         if (openWeatherMap.isError()){
-            throw new Exception(ERROR_OWM);
+            throw new IOException(ERROR_OWM);
         }
     }
 
     @Override
-    public String toString(){
-        return openWeatherMap.getNameProperty();
-    }
-
+    public String toString(){ return openWeatherMap.getNameProperty(); }
 }

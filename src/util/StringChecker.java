@@ -2,21 +2,15 @@ package util;
 
 public class StringChecker {
 
-    public static boolean IsNullOrEmpty(String value) {
-        if (value != null)
-            return value.length() == 0;
-        else
-            return true;
-    }
+//    public static boolean IsNullOrEmpty(String value) {
+//        if (value != null)
+//            return value.length() == 0;
+//        else
+//            return true;
+//    }
 
     public static boolean IsNullOrWhiteSpace(String value) {
-        int index;
-        if (value == null)
-            return true;
-        if (!isWhiteSpace(value))
-            return false;
-
-        return true;
+        return value == null || isWhiteSpace(value);
     }
 
     private static boolean isWhiteSpace(String s) {

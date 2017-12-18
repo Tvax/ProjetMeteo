@@ -4,14 +4,14 @@ import javafx.beans.property.SimpleStringProperty;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
+//import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class Unsplash {
 
-    private static final String ERROR_MSG = "There's been an error fetching data from Unsplash. Try again later.";
+    //private static final String ERROR_MSG = "There's been an error fetching data from Unsplash. Try again later.";
     private static final String URL_BASE_UNSPLASH = "https://api.unsplash.com/photos/random?query=";
     private static final String API_KEY_UNSPLASH = "d1d21525dd7d52dc4f608a06c458031ac4a427cc06de40b347eb90802a1d1fa7";
 
@@ -37,7 +37,7 @@ public class Unsplash {
     }
 
     private void buildURL(){
-        urlAPIUnsplash  = new String(URL_BASE_UNSPLASH + this.name);
+        urlAPIUnsplash  = URL_BASE_UNSPLASH + this.name;
     }
 
     private void getJsonFile() throws Exception {
@@ -60,5 +60,4 @@ public class Unsplash {
         String urlCityImage = jsonObject.getJSONObject("urls").get("raw").toString();
         backgroundCityImageProperty = new SimpleStringProperty("-fx-background-image: url(\"" + urlCityImage + "\");-fx-background-size: 1920, 1080;-fx-background-repeat: no-repeat;");
     }
-
 }
