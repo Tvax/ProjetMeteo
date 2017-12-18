@@ -4,8 +4,8 @@ import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+//import javafx.event.ActionEvent;
+//import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
@@ -15,8 +15,8 @@ import city.City;
 
 public class Controller extends Parent {
 
-    private static String ALERT_TITLE = "Error Dialog";
-    private static String ALERT_DIALOG = "Error Fetching Data";
+    private final static String ALERT_TITLE = "Error Dialog";
+    private final static String ALERT_DIALOG = "Error Fetching Data";
 
     @FXML
     private Button removeButton;
@@ -42,8 +42,8 @@ public class Controller extends Parent {
     @FXML
     private ListView<City> listView;
 
-    protected ObservableList<City> cityList = FXCollections.observableArrayList();
-    protected ListProperty<City> listProperty = new SimpleListProperty<>(cityList);
+    private ObservableList<City> cityList = FXCollections.observableArrayList();
+    private ListProperty<City> listProperty = new SimpleListProperty<>(cityList);
 
     private StringProperty timeProperty = new SimpleStringProperty();
     private StringProperty temperatureProperty = new SimpleStringProperty();
@@ -73,7 +73,6 @@ public class Controller extends Parent {
         removeButton.setOnAction(event -> {
             final int selectedIdx = listView.getSelectionModel().getSelectedIndex();
             if (selectedIdx != -1) {
-                listView.getSelectionModel().getSelectedItem();
 
                 final int newSelectedIdx =
                         (selectedIdx == listView.getItems().size() - 1)
@@ -85,6 +84,28 @@ public class Controller extends Parent {
             }
         });
     }
+
+    /*
+    @FXML
+    private void handleButtonRemove(ActionEvent e){
+        removeButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent event) {
+                final int selectedIdx = listView.getSelectionModel().getSelectedIndex();
+                if (selectedIdx != -1) {
+                    City itemToRemove = listView.getSelectionModel().getSelectedItem();
+
+                    final int newSelectedIdx =
+                            (selectedIdx == listView.getItems().size() - 1)
+                                    ? selectedIdx - 1
+                                    : selectedIdx;
+
+                    listView.getItems().remove(selectedIdx);
+                    listView.getSelectionModel().select(newSelectedIdx);
+                }
+            }
+        });
+    }
+    */
 
     public void initialize() {
         bindFXMlWithProperties();
@@ -100,7 +121,7 @@ public class Controller extends Parent {
         //Binding FXML (Label...) -> Property
         listView.itemsProperty().bind(listProperty);
 
-        time.textProperty().bind(timeProperty);
+        time.textProperty().bindBidirectional(timeProperty);
         temperature.textProperty().bind(temperatureProperty);
         weather.textProperty().bind(weatherProperty);
         weatherIcon.imageProperty().bind(weatherIconProperty);
@@ -116,7 +137,7 @@ public class Controller extends Parent {
     }
 
     private void bindCity(City city){
-        timeProperty.bind(city.getTimeZoneDB().timePropertyProperty());
+        timeProperty.bindBidirectional(city.getTimeZoneDB().timePropertyProperty());
         temperatureProperty.bind(city.getOpenWeatherMap().tempPropertyProperty());
         weatherProperty.bind(city.getOpenWeatherMap().weatherDescriptionPropertyProperty());
         weatherIconProperty.bind(city.getOpenWeatherMap().weatherImagePropertyProperty());
@@ -124,11 +145,13 @@ public class Controller extends Parent {
     }
 
     private void bindEmptyCityProperties(){
-        timeProperty.bind(new SimpleStringProperty());
-        temperatureProperty.bind(new SimpleStringProperty());
-        weatherProperty.bind(new SimpleStringProperty());
-        weatherIconProperty.bind(new SimpleObjectProperty<>());
-        borderPaneProperty.bind(new SimpleObjectProperty<>());
+        SimpleStringProperty tmp = new SimpleStringProperty();
+        ObjectProperty tmpImg = new SimpleObjectProperty();
+        timeProperty.bindBidirectional(tmp);
+        temperatureProperty.bind(tmp);
+        weatherProperty.bind(tmp);
+        weatherIconProperty.bind(tmpImg);
+        borderPaneProperty.bind(tmpImg);
     }
 
     @FXML
