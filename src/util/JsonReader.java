@@ -7,7 +7,7 @@ import java.nio.charset.Charset;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class JsonReader {
+public abstract class JsonReader {
 
     private static String readAll(Reader rd) throws IOException {
         StringBuilder sb = new StringBuilder();
