@@ -2,13 +2,6 @@ package util;
 
 public abstract class StringChecker {
 
-//    public static boolean IsNullOrEmpty(String value) {
-//        if (value != null)
-//            return value.length() == 0;
-//        else
-//            return true;
-//    }
-
     public static boolean IsNullOrWhiteSpace(String value) {
         return value == null || isWhiteSpace(value);
     }

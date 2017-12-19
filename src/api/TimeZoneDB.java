@@ -12,6 +12,9 @@ public class TimeZoneDB {
     //private static final String ERROR_MSG = "There's been an error fetching data from TZDB. Try again later.";
     private static final String API_KEY_TIMEZONEDB = "B1ZJLC3ORUD5";
     private static final String URL_BASE = "https://api.timezonedb.com/v2/get-time-zone?key=";
+    private static final int DELETE_SECONDS = 3;
+    private static final int DELETE_DATE = 1;
+    private static final int STRING_BEG_INDEX = 0;
 
     private boolean error = false;
     private String urlJsonTimeZoneDB;
@@ -45,8 +48,8 @@ public class TimeZoneDB {
 
     private void setVariables(){
         String time = jsonObject.get("formatted").toString();
-        time = time.substring(time.indexOf(' ') + 1);
-        time = time.substring(0, time.length() - 3);
+        time = time.substring(time.indexOf(' ') + DELETE_DATE);
+        time = time.substring(STRING_BEG_INDEX, time.length() - DELETE_SECONDS);
         this.timeProperty = new SimpleStringProperty(time);
     }
 }

@@ -31,7 +31,7 @@ public class OpenWeatherMap {
 
     public ObjectProperty<Image> weatherImagePropertyProperty() { return weatherImageProperty; }
     public SimpleStringProperty tempPropertyProperty() { return tempProperty; }
-    public SimpleStringProperty namePropertyProperty() { return nameProperty; }
+
     public SimpleStringProperty weatherDescriptionPropertyProperty() { return weatherDescriptionProperty; }
 
     public String getNameProperty() { return nameProperty.get(); }
@@ -59,11 +59,10 @@ public class OpenWeatherMap {
         this.lat = jsonObject.optJSONObject("coord").get("lat").toString();
 
         this.nameProperty = new SimpleStringProperty(this.name + ", " + jsonObject.getJSONObject("sys").get("country").toString());
-        this.tempProperty = new SimpleStringProperty(jsonObject.getJSONObject("main").get("temp").toString());
+        this.tempProperty = new SimpleStringProperty(jsonObject.getJSONObject("main").get("temp").toString()+ " C");
         this.weatherDescriptionProperty = new SimpleStringProperty(jsonObject.getJSONArray("weather").getJSONObject(0).get("description").toString());
 
         String weatherImage = URL_BASE_WEATHER_IMAGE + jsonObject.getJSONArray("weather").getJSONObject(0).get("icon").toString() + ".png";
-        //this.weatherImageProperty = new SimpleObjectProperty<Image>(new Image(weatherImage));
         this.weatherImageProperty = new SimpleObjectProperty<>(new Image(weatherImage));
     }
 }
