@@ -41,7 +41,7 @@ public class City{
     }
 
     private void callApiUnsplash() throws IOException, InterruptedException {
-        new Thread(() -> unsplash = new Unsplash(openWeatherMap.getNameProperty())){{start();}}.join();
+        new Thread(() -> unsplash = new Unsplash(openWeatherMap.getName())){{start();}}.join();
 
         if (unsplash.isError()){
             throw new IOException(ERROR_UNSPLASH);
@@ -56,5 +56,5 @@ public class City{
     }
 
     @Override
-    public String toString(){ return openWeatherMap.getNameProperty(); }
+    public String toString(){ return openWeatherMap.getName(); }
 }
