@@ -25,4 +25,8 @@ public abstract class JsonReader {
             return new JSONObject(jsonText);
         }
     }
+
+    public static JSONObject getJSONFile(String urlJson) throws IOException {
+        return readJsonFromUrl(urlJson);
+    }
 }

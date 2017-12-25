@@ -13,33 +13,17 @@ public class Unsplash extends Api{
     private static final String URL_BASE_UNSPLASH = "https://api.unsplash.com/photos/random?query=";
     private static final String API_KEY_UNSPLASH = "d1d21525dd7d52dc4f608a06c458031ac4a427cc06de40b347eb90802a1d1fa7";
 
-    private String name;
-    private boolean error = false;
-    private JSONObject jsonObject;
 
-    private SimpleStringProperty backgroundCityImageProperty;
-
-    public SimpleStringProperty backgroundCityImagePropertyProperty() { return backgroundCityImageProperty; }
-
-    public boolean isError(){return error;}
-
-    public Unsplash(String name) {
-        this.name = name;
-
+    public Unsplash(Api openWeatherMap){
+        super(openWeatherMap);
         try {
-            jsonObject = getJsonFile(buildURL()); }
+            setVariables(getJSONFileFromUnsplash(buildURL())); }
         catch (Exception e){
-            error = true;
-            return;
+            setError(true);
         }
-        setVariables();
     }
 
-    private String buildURL(){
-        return URL_BASE_UNSPLASH + this.name;
-    }
-
-    private JSONObject getJsonFile(String urlJson) throws Exception {
+    JSONObject getJSONFileFromUnsplash(String urlJson) throws Exception {
         URL url = new URL(urlJson);
         HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
         urlConn.setRequestProperty("Authorization", "Bearer " + API_KEY_UNSPLASH);
@@ -55,8 +39,12 @@ public class Unsplash extends Api{
         return new JSONObject(sb.toString());
     }
 
-    private void setVariables(){
+    String buildURL(){
+        return URL_BASE_UNSPLASH + this.getName();
+    }
+
+    void setVariables(JSONObject jsonObject){
         String urlCityImage = jsonObject.getJSONObject("urls").get("regular").toString();
-        backgroundCityImageProperty = new SimpleStringProperty("-fx-background-image: url(\"" + urlCityImage + "\");-fx-background-size: 1920, 1080;-fx-background-repeat: no-repeat;");
+        setBackgroundCityImageProperty(new SimpleStringProperty("-fx-background-image: url(\"" + urlCityImage + "\");-fx-background-size: 1920, 1080;-fx-background-repeat: no-repeat;"));
     }
 }

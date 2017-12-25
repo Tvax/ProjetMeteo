@@ -1,5 +1,6 @@
 package window;
 
+import api.*;
 import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -12,6 +13,8 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import city.City;
+
+import java.util.HashMap;
 
 public class Controller extends Parent {
 
@@ -55,11 +58,21 @@ public class Controller extends Parent {
     @FXML
     private void handleButtonSearchAction(){
         try {
-            cityList.add(new City(cityTextField.getText()));
+            HashMap<Apis, Api> map = new HashMap<>();
+            Api owm = new OpenWeatherMap(cityTextField.getText());
+            Api time = new TimeZoneDB(owm.getLng(), owm.getLat());
+            Api unsplash = new Unsplash(owm);
+
+
+            map.put(Apis.OPENWEATHERMAP,owm);
+            map.put(Apis.TIMEZONDEDB,time);
+            map.put(Apis.UNSPLASH,unsplash);
+
+            cityList.add(new City(map));
+
             cityTextField.setText(null);
         }
         catch (Exception e) {
-            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle(ALERT_TITLE);
             alert.setHeaderText(ALERT_DIALOG);
@@ -67,6 +80,7 @@ public class Controller extends Parent {
             alert.showAndWait();
         }
     }
+
 
     @FXML
     private void handleButtonRemove(){
@@ -137,17 +151,17 @@ public class Controller extends Parent {
     }
 
     private void bindCity(City city){
-        timeProperty.bindBidirectional(city.getTimeZoneDB().timePropertyProperty());
-        temperatureProperty.bind(city.getOpenWeatherMap().tempPropertyProperty());
-        weatherProperty.bind(city.getOpenWeatherMap().weatherDescriptionPropertyProperty());
-        weatherIconProperty.bind(city.getOpenWeatherMap().weatherImagePropertyProperty());
-        borderPaneProperty.bind(city.getUnsplash().backgroundCityImagePropertyProperty());
+        timeProperty.bindBidirectional(city.getListApi().get(Apis.TIMEZONDEDB).timePropertyProperty());
+        temperatureProperty.bind(city.getListApi().get(Apis.OPENWEATHERMAP).tempPropertyProperty());
+        weatherProperty.bind(city.getListApi().get(Apis.OPENWEATHERMAP).weatherDescriptionPropertyProperty());
+        weatherIconProperty.bind(city.getListApi().get(Apis.OPENWEATHERMAP).weatherImagePropertyProperty());
+        borderPaneProperty.bind(city.getListApi().get(Apis.UNSPLASH).backgroundCityImagePropertyProperty());
     }
 
     private void bindEmptyCityProperties(){
         SimpleStringProperty tmp = new SimpleStringProperty();
         ObjectProperty tmpImg = new SimpleObjectProperty();
-        timeProperty.bindBidirectional(tmp);
+        //timeProperty.bindBidirectional(tmp);
         temperatureProperty.bind(tmp);
         weatherProperty.bind(tmp);
         weatherIconProperty.bind(tmpImg);
