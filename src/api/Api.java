@@ -12,7 +12,7 @@ import static util.JsonReader.getJSONFileFromUnsplash;
 import static util.StringChecker.IsNullOrWhiteSpace;
 
 /**
- * Creer un objet permettant d'acceder a une API
+ * Créer un objet permettant d'accéder à une API.
  */
 public abstract class Api {
 
@@ -26,7 +26,7 @@ public abstract class Api {
     public String getLng(){ return lng; }
     public String getLat(){ return lat; }
 
-    public void setName(String name) { this.name = name; }
+    void setName(String name) { this.name = name; }
     void setLng(String lng) { this.lng = lng; }
     void setLat(String lat) { this.lat = lat; }
 
@@ -56,7 +56,7 @@ public abstract class Api {
     /**
      * Constructeur de OpenWeatherMap
      * @param name le nom de la ville saisie
-     * @throws IOException si le nom de la ville est nulle ou est composee d'espaces
+     * @throws IOException si le nom de la ville est null ou est uniquement composé d'espaces
      */
     Api(String name) throws IOException{
         if(IsNullOrWhiteSpace(name)){ throw new IOException(ERROR_CITYNAME); }
@@ -85,7 +85,7 @@ public abstract class Api {
 
     /**
      *Constructeur de Unsplash
-     *@param openWeatherMap les informations venant de l'api d'OpenWeatherMap
+     *@param openWeatherMap les informations venant de l'API de OpenWeatherMap
      */
     Api(Api openWeatherMap){
         setName(openWeatherMap.getName());
@@ -97,8 +97,8 @@ public abstract class Api {
     }
 
     /**
-     *Construit l'URL pour acceder a l'API
-     * @return l'URL pour acceder a l'API
+     *Construit l'URL pour accéder à l'API
+     * @return l'URL pour accéder à l'API
      */
     abstract String buildURL();
 

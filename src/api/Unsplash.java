@@ -4,7 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 import org.json.JSONObject;
 
 /**
- * Objet permettant d'acceder aux objet de l'API d'Unsplash
+ * Objet permettant d'accéder aux objets JSON de l'API de Unsplash
  */
 
 public class Unsplash extends Api{

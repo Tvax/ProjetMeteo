@@ -17,7 +17,7 @@ import city.City;
 import java.util.HashMap;
 
 /**
- * Controlle la fenetre MeteoMain.fxml
+ * Controlle la fenêtre MeteoMain.fxml
  */
 
 public class Controller extends Parent {
@@ -90,7 +90,7 @@ public class Controller extends Parent {
 
 
     /**
-     * Supprime la ville selectionnee dans listView
+     * Supprime la ville selectionnée dans listView
      */
     @FXML
     private void handleButtonRemove(){
@@ -111,7 +111,7 @@ public class Controller extends Parent {
 
 
     /**
-     * Creer l'ensemble des bindings
+     * Créer l'ensemble des bindings
      */
     public void initialize() {
         bindFXMlWithProperties();
@@ -124,7 +124,7 @@ public class Controller extends Parent {
     }
 
     /**
-     * Bind les proprietes avec les labels
+     * Bind les propriétés avec les labels
      */
     private void bindFXMlWithProperties(){
         //Binding FXML (Label...) -> Property
@@ -138,7 +138,7 @@ public class Controller extends Parent {
     }
 
     /**
-     * Unbind toutes les proprietes
+     * Unbind toutes les propriétés
      */
     private void unbindAll(){
         timeProperty.unbind();
@@ -149,7 +149,7 @@ public class Controller extends Parent {
     }
 
     /**
-     * Bind une City avec les proprietes correspondantes
+     * Bind une City avec les propriétés correspondantes
      * @param city la City a binder
      */
     private void bindCity(City city){
@@ -161,15 +161,16 @@ public class Controller extends Parent {
     }
 
     /**
-     * Bind une propriete vide sur toutes les proprietes
+     * Bind une propriété vide sur toutes les propriétés
      */
     private void bindEmptyCityProperties(){
         SimpleStringProperty tmp = new SimpleStringProperty();
-        ObjectProperty tmpImg = new SimpleObjectProperty();
+        ObjectProperty<? extends String> tmpImg = new SimpleObjectProperty<>();
+        ObjectProperty<? extends Image> tmpBack = new SimpleObjectProperty<>();
         timeProperty.bindBidirectional(tmp);
         temperatureProperty.bind(tmp);
         weatherProperty.bind(tmp);
-        weatherIconProperty.bind(tmpImg);
+        weatherIconProperty.bind(tmpBack);
         borderPaneProperty.bind(tmpImg);
     }
 

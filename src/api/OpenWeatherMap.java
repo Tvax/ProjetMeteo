@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 import org.json.JSONObject;
 
 /**
- * Objet permettant d'acceder aux objets de l'API d'OpenWeatherMap
+ * Objet permettant d'accéder aux objets JSON de l'API de OpenWeatherMap
  */
 
 public class OpenWeatherMap extends Api{

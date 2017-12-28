@@ -6,7 +6,7 @@ import api.Apis;
 import java.util.HashMap;
 
 /**
- * Objet qui permet de garder les differentes API a utiliser pour une ville
+ * Objet qui permet de garder les différentes API à utiliser pour une ville
  */
 
 public class City{
@@ -16,7 +16,7 @@ public class City{
 
     /**
      * Constructeur de City
-     * @param listApi correspond a la liste des API a garder en memoire
+     * @param listApi correspond à la liste des API à garder en mémoire
      */
     public City (HashMap<Apis, Api> listApi) {
         this.listApi = listApi;

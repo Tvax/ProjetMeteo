@@ -4,7 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 import org.json.JSONObject;
 
 /**
- * Objet permettant d'acceder aux objets de l'API d'TimeZoneDB
+ * Objet permettant d'accéder aux objets JSON de l'API de TimeZoneDB
  */
 
 public class TimeZoneDB extends Api{
