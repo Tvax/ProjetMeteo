@@ -5,16 +5,19 @@ import api.Apis;
 
 import java.util.HashMap;
 
+/**
+ * Objet qui permet de garder les differentes API a utiliser pour une ville
+ */
+
 public class City{
 
-    private static final String ERROR_OWM = "There's been an error fetching data from OWM. Try again later.";
-    private static final String ERROR_UNSPLASH = "There's been an error fetching data from Unsplash. Try again later.";
-    private static final String ERROR_TZDB = "There's been an error fetching data from TZDB. Try again later.";
-
     private HashMap<Apis, Api> listApi;
-
     public HashMap<Apis, Api> getListApi() { return listApi; }
 
+    /**
+     * Constructeur de City
+     * @param listApi correspond a la liste des API a garder en memoire
+     */
     public City (HashMap<Apis, Api> listApi) {
         this.listApi = listApi;
     }

@@ -3,12 +3,20 @@ package api;
 import javafx.beans.property.SimpleStringProperty;
 import org.json.JSONObject;
 
+/**
+ * Objet permettant d'acceder aux objets de l'API d'TimeZoneDB
+ */
+
 public class TimeZoneDB extends Api{
 
+    private static final String ERROR_TZDB = "There's been an error fetching data from TZDB. Try again later.";
     private static final String API_KEY_TIMEZONEDB = "B1ZJLC3ORUD5";
 
-    public TimeZoneDB(String lng, String lat){
+    public TimeZoneDB(String lng, String lat) throws Exception {
         super(lng, lat);
+        if(isError()){
+            throw new Exception(ERROR_TZDB);
+        }
     }
 
     String buildURL(){
@@ -16,7 +24,7 @@ public class TimeZoneDB extends Api{
         return urlBaseTimeZoneDB + this.getLat() + "&lng=" + this.getLng();
     }
 
-    void setVariables(JSONObject jsonObject){
+    void setVariables(JSONObject jsonObject) throws Exception{
         String time = jsonObject.get("formatted").toString();
         time = time.substring(time.indexOf(' ') + 1);
         time = time.substring(0, time.length() - 3);

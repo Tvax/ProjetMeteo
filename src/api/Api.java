@@ -4,22 +4,36 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.image.Image;
 import org.json.JSONObject;
-import util.JsonReader;
 
 import java.io.IOException;
 
+import static util.JsonReader.getJSONFile;
+import static util.JsonReader.getJSONFileFromUnsplash;
 import static util.StringChecker.IsNullOrWhiteSpace;
 
-public abstract class Api extends JsonReader {
+/**
+ * Creer un objet permettant d'acceder a une API
+ */
+public abstract class Api {
 
     private static final String ERROR_CITYNAME = "City name invalid";
 
-    //All
-    private boolean error = false;
-    public boolean isError(){return error;}
-    public void setError(boolean error){this.error = error;}
+    private String name;
+    private String lng;
+    private String lat;
 
-    //OWM
+    public String getName() { return name; }
+    public String getLng(){ return lng; }
+    public String getLat(){ return lat; }
+
+    public void setName(String name) { this.name = name; }
+    void setLng(String lng) { this.lng = lng; }
+    void setLat(String lat) { this.lat = lat; }
+
+    private boolean error = false;
+    boolean isError(){ return error; }
+    private void setError(){ this.error = true; }
+
 
     private SimpleStringProperty tempProperty;
     private ObjectProperty<Image> weatherImageProperty;
@@ -27,90 +41,70 @@ public abstract class Api extends JsonReader {
     public ObjectProperty<Image> weatherImagePropertyProperty() { return weatherImageProperty; }
     public SimpleStringProperty tempPropertyProperty() { return tempProperty; }
     public SimpleStringProperty weatherDescriptionPropertyProperty() { return weatherDescriptionProperty; }
+    void setTempProperty(SimpleStringProperty tempProperty) { this.tempProperty = tempProperty; }
+    void setWeatherImageProperty(ObjectProperty<Image> weatherImageProperty) { this.weatherImageProperty = weatherImageProperty; }
+    void setWeatherDescriptionProperty(SimpleStringProperty weatherDescriptionProperty) { this.weatherDescriptionProperty = weatherDescriptionProperty; }
 
-    private String name;
-
-    void setTempProperty(SimpleStringProperty tempProperty) {
-        this.tempProperty = tempProperty;
-    }
-
-    void setWeatherImageProperty(ObjectProperty<Image> weatherImageProperty) {
-        this.weatherImageProperty = weatherImageProperty;
-    }
-
-    void setWeatherDescriptionProperty(SimpleStringProperty weatherDescriptionProperty) {
-        this.weatherDescriptionProperty = weatherDescriptionProperty;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    void setLng(String lng) {
-        this.lng = lng;
-    }
-
-    void setLat(String lat) {
-        this.lat = lat;
-    }
-
-    private String lng;
-    private String lat;
-
-    public String getName() { return name; }
-    public String getLng(){return lng;}
-    public String getLat(){return lat;}
-
-
-    //Time
     private SimpleStringProperty timeProperty;
     public SimpleStringProperty timePropertyProperty() { return timeProperty; }
-    public void setTimeProperty(SimpleStringProperty timeProperty) {
-        this.timeProperty = timeProperty;
-    }
+    void setTimeProperty(SimpleStringProperty timeProperty) { this.timeProperty = timeProperty; }
 
-    //Unsplash
     private SimpleStringProperty backgroundCityImageProperty;
     public SimpleStringProperty backgroundCityImagePropertyProperty() { return backgroundCityImageProperty; }
-    public void setBackgroundCityImageProperty(SimpleStringProperty backgroundCityImageProperty) {
-        this.backgroundCityImageProperty = backgroundCityImageProperty;
-    }
+    void setBackgroundCityImageProperty(SimpleStringProperty backgroundCityImageProperty) { this.backgroundCityImageProperty = backgroundCityImageProperty; }
 
-    //owm
+    /**
+     * Constructeur de OpenWeatherMap
+     * @param name le nom de la ville saisie
+     * @throws IOException si le nom de la ville est nulle ou est composee d'espaces
+     */
     Api(String name) throws IOException{
         if(IsNullOrWhiteSpace(name)){ throw new IOException(ERROR_CITYNAME); }
-        this.name = name;
-
+        setName(name);
         try {
             setVariables(getJSONFile(buildURL())); }
         catch (Exception e){
-            error = true;
+            setError();
         }
     }
 
-    //time
+    /**
+     * Constructeur de TimeZoneDB
+     * @param lng la longitude de la ville saisie
+     * @param lat la latitude de la ville saisie
+     */
     Api(String lng, String lat){
         setLat(lat);
         setLng(lng);
-
         try {
             setVariables(getJSONFile(buildURL())); }
         catch (Exception e){
-            error = true;
+            setError();
         }
     }
 
-    //unsplash
+    /**
+     *Constructeur de Unsplash
+     *@param openWeatherMap les informations venant de l'api d'OpenWeatherMap
+     */
     Api(Api openWeatherMap){
         setName(openWeatherMap.getName());
+        try {
+            setVariables(getJSONFileFromUnsplash(buildURL())); }
+        catch (Exception e){
+            setError();
+        }
     }
 
-    Api(){
-
-    }
-
+    /**
+     *Construit l'URL pour acceder a l'API
+     * @return l'URL pour acceder a l'API
+     */
     abstract String buildURL();
-    abstract void setVariables(JSONObject jsonObject);
 
-
+    /**
+     * Associe les attributs avec les objets JSON de jsonObject
+     * @param jsonObject l'ensemble des objets JSON de l'API
+     */
+    abstract void setVariables(JSONObject jsonObject) throws Exception;
 }

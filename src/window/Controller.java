@@ -16,6 +16,10 @@ import city.City;
 
 import java.util.HashMap;
 
+/**
+ * Controlle la fenetre MeteoMain.fxml
+ */
+
 public class Controller extends Parent {
 
     private final static String ALERT_TITLE = "Error Dialog";
@@ -55,6 +59,9 @@ public class Controller extends Parent {
     private ObjectProperty<Image> weatherIconProperty = new SimpleObjectProperty<>();
     private StringProperty borderPaneProperty  = new SimpleStringProperty();
 
+    /**
+     * Ajoute dans listView la ville saisie
+     */
     @FXML
     private void handleButtonSearchAction(){
         try {
@@ -82,6 +89,9 @@ public class Controller extends Parent {
     }
 
 
+    /**
+     * Supprime la ville selectionnee dans listView
+     */
     @FXML
     private void handleButtonRemove(){
         removeButton.setOnAction(event -> {
@@ -99,28 +109,10 @@ public class Controller extends Parent {
         });
     }
 
-    /*
-    @FXML
-    private void handleButtonRemove(ActionEvent e){
-        removeButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent event) {
-                final int selectedIdx = listView.getSelectionModel().getSelectedIndex();
-                if (selectedIdx != -1) {
-                    City itemToRemove = listView.getSelectionModel().getSelectedItem();
 
-                    final int newSelectedIdx =
-                            (selectedIdx == listView.getItems().size() - 1)
-                                    ? selectedIdx - 1
-                                    : selectedIdx;
-
-                    listView.getItems().remove(selectedIdx);
-                    listView.getSelectionModel().select(newSelectedIdx);
-                }
-            }
-        });
-    }
-    */
-
+    /**
+     * Creer l'ensemble des bindings
+     */
     public void initialize() {
         bindFXMlWithProperties();
 
@@ -131,6 +123,9 @@ public class Controller extends Parent {
         });
     }
 
+    /**
+     * Bind les proprietes avec les labels
+     */
     private void bindFXMlWithProperties(){
         //Binding FXML (Label...) -> Property
         listView.itemsProperty().bind(listProperty);
@@ -142,6 +137,9 @@ public class Controller extends Parent {
         borderPane.styleProperty().bind(borderPaneProperty);
     }
 
+    /**
+     * Unbind toutes les proprietes
+     */
     private void unbindAll(){
         timeProperty.unbind();
         temperatureProperty.unbind();
@@ -150,6 +148,10 @@ public class Controller extends Parent {
         borderPaneProperty.unbind();
     }
 
+    /**
+     * Bind une City avec les proprietes correspondantes
+     * @param city la City a binder
+     */
     private void bindCity(City city){
         timeProperty.bindBidirectional(city.getListApi().get(Apis.TIMEZONDEDB).timePropertyProperty());
         temperatureProperty.bind(city.getListApi().get(Apis.OPENWEATHERMAP).tempPropertyProperty());
@@ -158,16 +160,22 @@ public class Controller extends Parent {
         borderPaneProperty.bind(city.getListApi().get(Apis.UNSPLASH).backgroundCityImagePropertyProperty());
     }
 
+    /**
+     * Bind une propriete vide sur toutes les proprietes
+     */
     private void bindEmptyCityProperties(){
         SimpleStringProperty tmp = new SimpleStringProperty();
         ObjectProperty tmpImg = new SimpleObjectProperty();
-        //timeProperty.bindBidirectional(tmp);
+        timeProperty.bindBidirectional(tmp);
         temperatureProperty.bind(tmp);
         weatherProperty.bind(tmp);
         weatherIconProperty.bind(tmpImg);
         borderPaneProperty.bind(tmpImg);
     }
 
+    /**
+     * Ferme l'application
+     */
     @FXML
     private void handleButtonAction() {
         Platform.exit();

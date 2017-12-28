@@ -1,29 +1,33 @@
 package api;
 
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.image.Image;
 import org.json.JSONObject;
-import util.JsonReader;
 
-import java.io.IOException;
+/**
+ * Objet permettant d'acceder aux objets de l'API d'OpenWeatherMap
+ */
 
 public class OpenWeatherMap extends Api{
 
+    private static final String ERROR_OWM = "There's been an error fetching data from OWM. Try again later.";
     private static final String API_KEY_WEATHER = "d82b125f9ed47887afc80e5304bbf603";
     private static final String URL_BASE_WEATHER = "http://api.openweathermap.org/data/2.5/weather?";
     private static final String URL_BASE_WEATHER_IMAGE = "https://openweathermap.org/img/w/";
 
-    public OpenWeatherMap(String name) throws IOException {
+    public OpenWeatherMap(String name) throws Exception {
         super(name);
+        if(isError()){
+            throw new Exception(ERROR_OWM);
+        }
     }
 
     String buildURL(){
         return URL_BASE_WEATHER + "q=" + getName() + "&appid=" + API_KEY_WEATHER + "&units=metric";
     }
 
-    void setVariables(JSONObject jsonObject){
+    void setVariables(JSONObject jsonObject) {
         this.setName(jsonObject.get("name").toString());
         this.setLng(jsonObject.optJSONObject("coord").get("lon").toString());
         this.setLat(jsonObject.optJSONObject("coord").get("lat").toString());
