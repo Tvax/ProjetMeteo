@@ -11,7 +11,7 @@ import org.json.JSONObject;
 
 public class OpenWeatherMap extends Api{
 
-    private static final String ERROR_OWM = "There's been an error fetching data from OWM. Try again later.";
+    private static final String ERROR_OWM = "There's been an error fetching data from OWM.";
     private static final String API_KEY_WEATHER = "d82b125f9ed47887afc80e5304bbf603";
     private static final String URL_BASE_WEATHER = "http://api.openweathermap.org/data/2.5/weather?";
     private static final String URL_BASE_WEATHER_IMAGE = "https://openweathermap.org/img/w/";
