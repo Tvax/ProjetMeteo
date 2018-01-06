@@ -11,6 +11,9 @@ public class TimeZoneDB extends Api{
 
     private static final String ERROR_TZDB = "There's been an error fetching data from TZDB.";
     private static final String API_KEY_TIMEZONEDB = "B1ZJLC3ORUD5";
+    private static final int RM_DATE= 1;
+    private static final int INDEX_START= 0;
+    private static final int RM_SECONDS= 3;
 
     public TimeZoneDB(String lng, String lat) throws Exception {
         super(lng, lat);
@@ -26,8 +29,8 @@ public class TimeZoneDB extends Api{
 
     void setVariables(JSONObject jsonObject) {
         String time = jsonObject.get("formatted").toString();
-        time = time.substring(time.indexOf(' ') + 1);
-        time = time.substring(0, time.length() - 3);
+        time = time.substring(time.indexOf(' ') + RM_DATE);
+        time = time.substring(INDEX_START, time.length() - RM_SECONDS);
         this.setTimeProperty(new SimpleStringProperty(time));
     }
 }
