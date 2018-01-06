@@ -70,13 +70,11 @@ public class Controller extends Parent {
             Api time = new TimeZoneDB(owm.getLng(), owm.getLat());
             Api unsplash = new Unsplash(owm);
 
-
             map.put(Apis.OPENWEATHERMAP,owm);
             map.put(Apis.TIMEZONDEDB,time);
             map.put(Apis.UNSPLASH,unsplash);
 
             cityList.add(new City(map));
-
             cityTextField.setText(null);
         }
         catch (Exception e) {
@@ -127,7 +125,6 @@ public class Controller extends Parent {
      * Bind les propriétés avec les labels
      */
     private void bindFXMlWithProperties(){
-        //Binding FXML (Label...) -> Property
         listView.itemsProperty().bind(listProperty);
 
         time.textProperty().bindBidirectional(timeProperty);
@@ -167,6 +164,7 @@ public class Controller extends Parent {
         SimpleStringProperty tmp = new SimpleStringProperty();
         ObjectProperty<? extends String> tmpImg = new SimpleObjectProperty<>();
         ObjectProperty<? extends Image> tmpBack = new SimpleObjectProperty<>();
+
         timeProperty.bindBidirectional(tmp);
         temperatureProperty.bind(tmp);
         weatherProperty.bind(tmp);
